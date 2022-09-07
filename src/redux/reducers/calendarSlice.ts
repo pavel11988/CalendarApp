@@ -4,13 +4,15 @@ import { INote } from "../../models/INote";
 interface ICalendarState {
   pickerMonth: number;
   pickerYear: number;
-  data: INote[];
+  notes: INote[];
+  currentNote: INote | null;
 }
 
 const initialState: ICalendarState = {
   pickerMonth: 8,
   pickerYear: 2022,
-  data: [],
+  notes: [],
+  currentNote: null,
 };
 
 export const calendarSlice = createSlice({
@@ -22,6 +24,16 @@ export const calendarSlice = createSlice({
     },
     changePickerYear(state, action: PayloadAction<number>) {
       state.pickerYear = action.payload;
+    },
+    addNewNote(state, action: PayloadAction<INote>) {
+      state.notes.push(action.payload);
+    },
+    editNote(state, action: PayloadAction<INote>) {
+      state.notes = state.notes.filter((note) => note.id === action.payload.id);
+      state.notes.push(action.payload);
+    },
+    setEditNote(state, action: PayloadAction<INote | null>) {
+      state.currentNote = action.payload;
     },
   },
 });

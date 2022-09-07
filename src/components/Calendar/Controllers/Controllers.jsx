@@ -15,7 +15,7 @@ import { calendarSlice } from "../../../redux/reducers/calendarSlice";
 import { monthNames, years } from "../../../helpers/config-data";
 
 // stlyes
-const selectStyled = {
+const selectStyles = {
   box: {
     display: "flex",
     flexDirection: "row",
@@ -95,8 +95,8 @@ const Controllers = () => {
     pickerYear === years[years.length - 1] &&
     pickerMonth === monthNames[monthNames.length - 1];
   return (
-    <Box sx={selectStyled.box} paddingY={2}>
-      <Box sx={selectStyled.select}>
+    <Box sx={selectStyles.box} paddingY={2}>
+      <Box sx={selectStyles.select}>
         <Button
           disabled={FIRST_YEAR}
           onClick={(e) => handlePrevMounth(e)}
@@ -128,7 +128,7 @@ const Controllers = () => {
             handleDateChange(newValue);
           }}
           renderInput={(params) => (
-            <TextField {...params} sx={selectStyled.picker} />
+            <TextField {...params} sx={selectStyles.picker} />
           )}
         />
       </LocalizationProvider>

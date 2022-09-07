@@ -1,5 +1,5 @@
 // mui components
-import { Table, TableBody, TableCell, TableRow } from "@mui/material";
+import { Table, TableBody, TableRow } from "@mui/material";
 
 // helpers functions
 import { getMonthData } from "../../../helpers/calendar";
@@ -8,21 +8,17 @@ import { getMonthData } from "../../../helpers/calendar";
 import { useAppSelector } from "../../../hooks/redux";
 
 // config
-import { daysOfWeek } from "../../../helpers/config-data";
+import CalendarItem from "../CalendarItem/CalendarItem";
 
-const tableStyled = {
+const tableStyles = {
   row: {
     height: "130px",
-    width: "130px",
-    backgroundColor: "#e8f5e9",
-  },
-  cell: {
-    border: "1px solid #78909c",
+    backgroundColor: "#e8f5e9b6",
   },
 };
 
 const CalendarTable = () => {
-  const { pickerMonth, pickerYear } = useAppSelector(
+  const { notes, pickerMonth, pickerYear } = useAppSelector(
     (state) => state.calendarReducer
   );
   const monthData = getMonthData(pickerYear, pickerMonth);
@@ -30,19 +26,15 @@ const CalendarTable = () => {
     <Table>
       <TableBody>
         {monthData?.map((week, index) => (
-          <TableRow sx={tableStyled.row} component="tr" key={index}>
-            {week.map((date, index) => {
-              if (date) {
-                return (
-                  <TableCell sx={tableStyled.cell} key={index}>
-                    {date.getDate()}
-                    <p>{daysOfWeek[index]}</p>
-                  </TableCell>
-                );
-              } else {
-                return <TableCell sx={tableStyled.cell} key={index} />;
-              }
-            })}
+          <TableRow sx={tableStyles.row} component="tr" key={index}>
+            {week.map((date, index) => (
+              <CalendarItem
+                date={date}
+                key={index}
+                index={index}
+                notes={notes}
+              />
+            ))}
           </TableRow>
         ))}
       </TableBody>

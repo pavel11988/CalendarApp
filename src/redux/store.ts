@@ -1,8 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import calendarReducer from "./reducers/calendarSlice";
+import globalReducer from "./reducers/globalSlice";
 
 const rootReducer = combineReducers({
   calendarReducer,
+  globalReducer,
 });
 
 export const setupStore = () => {
