@@ -4,17 +4,20 @@ import {
   List,
   ListItem,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
   TableCell,
 } from "@mui/material";
+
+// redux
+import { useAppDispatch } from "../../../hooks/redux";
+import { calendarSlice } from "../../../redux/reducers/calendarSlice";
+import { globalSlice } from "../../../redux/reducers/globalSlice";
 
 // icons
 import EventNoteIcon from "@mui/icons-material/EventNote";
 
 // config
 import { daysOfWeek } from "../../../helpers/config-data";
-// import { useAppSelector } from "../../../hooks/redux";
 
 const itemStyles = {
   cell: {
@@ -68,15 +71,22 @@ const itemStyles = {
 const CalendarItem = ({ date, index, notes }) => {
   const today = new Date();
 
+  const { changeEditNote } = calendarSlice.actions;
+  const { toggleModal } = globalSlice.actions;
+  const dispatch = useAppDispatch();
+
+  const handleEditNote = async (note) => {
+    await dispatch(changeEditNote(note));
+    dispatch(toggleModal(true));
+  };
+
   if (date) {
+    const currentDay =
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear();
     return (
-      <TableCell
-        sx={
-          date.getDate() === today.getDate()
-            ? itemStyles.cellToday
-            : itemStyles.cell
-        }
-      >
+      <TableCell sx={currentDay ? itemStyles.cellToday : itemStyles.cell}>
         <Box sx={itemStyles.container}>
           <Box sx={itemStyles.info}>{date.getDate()}</Box>
           <Box sx={itemStyles.info}>{daysOfWeek[index]}</Box>
@@ -91,7 +101,10 @@ const CalendarItem = ({ date, index, notes }) => {
                   key={note.id}
                   disablePadding
                 >
-                  <ListItemButton sx={itemStyles.noteButton}>
+                  <ListItemButton
+                    sx={itemStyles.noteButton}
+                    onClick={() => handleEditNote(note)}
+                  >
                     <EventNoteIcon />
                     <ListItemText primary={note.title} />
                   </ListItemButton>

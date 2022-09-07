@@ -1,4 +1,8 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import {
+  combineReducers,
+  configureStore,
+  getDefaultMiddleware,
+} from "@reduxjs/toolkit";
 import calendarReducer from "./reducers/calendarSlice";
 import globalReducer from "./reducers/globalSlice";
 
@@ -10,6 +14,11 @@ const rootReducer = combineReducers({
 export const setupStore = () => {
   return configureStore({
     reducer: rootReducer,
+    middleware: [
+      ...getDefaultMiddleware({
+        serializableCheck: false,
+      }),
+    ],
   });
 };
 
