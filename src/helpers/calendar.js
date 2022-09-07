@@ -18,15 +18,12 @@ export function getMonthData(year, month) {
     "YYYY-MM"
   ).daysInMonth();
 
-  // const prevMonth = month === 0 ? 11 : month - 1;
-  // const prevYear = month === 0 ? year - 1 : year;
-  // const daysInPrevMonth = moment(
-  //   `${prevYear}-${prevMonth}`,
-  //   "YYYY-MM"
-  // ).daysInMonth();
-
-  // console.log("current:", year, month);
-  // console.log("prev:", prevMonth, prevYear);
+  const prevMonth = month === 1 ? 12 : month - 1;
+  const prevYear = month === 1 ? year - 1 : year;
+  const daysInPrevMonth = moment(
+    `${prevYear}-${prevMonth}`,
+    "YYYY-MM"
+  ).daysInMonth();
 
   const monthStartsOn = getDayOfWeek(date);
 
@@ -37,8 +34,12 @@ export function getMonthData(year, month) {
   ) {
     result[i] = [];
     for (let j = 0; j < DAYS_IN_WEEK; j++) {
-      if ((i === 0 && j < monthStartsOn) || day > daysInCurrentMonth) {
-        result[i][j] = undefined;
+      if (i === 0 && j < monthStartsOn) {
+        let p = daysInPrevMonth - monthStartsOn;
+        for (let j = 0; j < monthStartsOn; j++) {
+          p += 1;
+          result[i][j] = new Date(prevYear, prevMonth, p);
+        }
       } else {
         result[i][j] = new Date(year, month, day++);
       }
@@ -47,3 +48,12 @@ export function getMonthData(year, month) {
 
   return result;
 }
+
+// ok with undefined
+// for (let j = 0; j < DAYS_IN_WEEK; j++) {
+//   if ((i === 0 && j < monthStartsOn) || day > daysInCurrentMonth) {
+//     result[i][j] = undefined;
+//   } else {
+//     result[i][j] = new Date(year, month, day++);
+//   }
+// }

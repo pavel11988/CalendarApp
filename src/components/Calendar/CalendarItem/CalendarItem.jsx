@@ -9,15 +9,12 @@ import {
 } from "@mui/material";
 
 // redux
-import { useAppDispatch } from "../../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { calendarSlice } from "../../../redux/reducers/calendarSlice";
 import { globalSlice } from "../../../redux/reducers/globalSlice";
 
 // icons
 import EventNoteIcon from "@mui/icons-material/EventNote";
-
-// config
-import { daysOfWeek } from "../../../helpers/config-data";
 
 const itemStyles = {
   cell: {
@@ -36,7 +33,7 @@ const itemStyles = {
   cellAnother: {
     width: "120px",
     border: "1px solid #78909c",
-    backgroundColor: "#b8b8b873",
+    backgroundColor: "#b8b8b8",
     padding: "2px",
     opacity: 0.5,
     position: "relative",
@@ -54,6 +51,7 @@ const itemStyles = {
   list: {
     mt: "20px",
     overflow: "auto",
+    minHeight: 100,
     maxHeight: 100,
     maxWidth: 120,
     ml: "auto",
@@ -68,11 +66,22 @@ const itemStyles = {
   },
 };
 
+const daysOfWeek = {
+  0: "Mon",
+  1: "Tue",
+  2: "Wed",
+  3: "Thu",
+  4: "Fri",
+  5: "Sat",
+  6: "Sun",
+};
+
 const CalendarItem = ({ date, index, notes }) => {
   const today = new Date();
 
   const { changeEditNote } = calendarSlice.actions;
   const { toggleModal } = globalSlice.actions;
+  const { pickerMonth } = useAppSelector((state) => state.calendarReducer);
   const dispatch = useAppDispatch();
 
   const handleEditNote = async (note) => {
@@ -80,43 +89,43 @@ const CalendarItem = ({ date, index, notes }) => {
     dispatch(toggleModal(true));
   };
 
-  if (date) {
-    const currentDay =
-      date.getDate() === today.getDate() &&
-      date.getMonth() === today.getMonth() &&
-      date.getFullYear() === today.getFullYear();
-    return (
-      <TableCell sx={currentDay ? itemStyles.cellToday : itemStyles.cell}>
-        <Box sx={itemStyles.container}>
-          <Box sx={itemStyles.info}>{date.getDate()}</Box>
-          <Box sx={itemStyles.info}>{daysOfWeek[index]}</Box>
-        </Box>
+  const currentDay =
+    date.getDate() === today.getDate() &&
+    date.getMonth() === today.getMonth() &&
+    date.getFullYear() === today.getFullYear();
+  const anotherMonth = date.getMonth() !== pickerMonth;
 
-        <List sx={itemStyles.list}>
-          {notes.map(
-            (note) =>
-              note.date.toString() === date.toString() && (
-                <ListItem
-                  sx={itemStyles.noteContainer}
-                  key={note.id}
-                  disablePadding
+  return (
+    <TableCell
+      sx={
+        (currentDay && !anotherMonth && itemStyles.cellToday) ||
+        (!currentDay && !anotherMonth && itemStyles.cell) ||
+        (!currentDay && anotherMonth && itemStyles.cellAnother)
+      }
+    >
+      <Box sx={itemStyles.container}>
+        <Box sx={itemStyles.info}>{date.getDate()}</Box>
+        <Box sx={itemStyles.info}>{daysOfWeek[index]}</Box>
+      </Box>
+
+      <List sx={itemStyles.list}>
+        {notes.map(
+          (note) =>
+            note.date.toString() === date.toString() && (
+              <ListItem sx={itemStyles.container} key={note.id} disablePadding>
+                <ListItemButton
+                  sx={itemStyles.noteButton}
+                  onClick={() => handleEditNote(note)}
                 >
-                  <ListItemButton
-                    sx={itemStyles.noteButton}
-                    onClick={() => handleEditNote(note)}
-                  >
-                    <EventNoteIcon />
-                    <ListItemText primary={note.title} />
-                  </ListItemButton>
-                </ListItem>
-              )
-          )}
-        </List>
-      </TableCell>
-    );
-  } else {
-    return <TableCell sx={itemStyles.cellAnother} />;
-  }
+                  <EventNoteIcon />
+                  <ListItemText primary={note.title} />
+                </ListItemButton>
+              </ListItem>
+            )
+        )}
+      </List>
+    </TableCell>
+  );
 };
 
 export default CalendarItem;
