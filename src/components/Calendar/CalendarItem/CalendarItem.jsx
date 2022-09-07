@@ -20,21 +20,21 @@ const itemStyles = {
   cell: {
     width: "120px",
     border: "1px solid #78909c",
-    padding: "3px",
+    padding: "2px",
     position: "relative",
   },
   cellToday: {
     width: "120px",
     border: "1px solid #78909c",
     backgroundColor: "#8aff80b6",
-    padding: "3px",
+    padding: "2px",
     position: "relative",
   },
   cellAnother: {
     width: "120px",
     border: "1px solid #78909c",
     backgroundColor: "#b8b8b873",
-    padding: "3px",
+    padding: "2px",
     opacity: 0.5,
     position: "relative",
   },
@@ -52,6 +52,16 @@ const itemStyles = {
     mt: "20px",
     overflow: "auto",
     maxHeight: 100,
+    maxWidth: 120,
+    ml: "auto",
+    mr: "auto",
+  },
+  noteButton: {
+    overflow: "hidden",
+    pt: "2px",
+    pb: "2px",
+    pl: "1px",
+    color: "#616161",
   },
 };
 
@@ -76,11 +86,13 @@ const CalendarItem = ({ date, index, notes }) => {
           {notes.map(
             (note) =>
               note.date.toString() === date.toString() && (
-                <ListItem sx={itemStyles.note} key={note.id} disablePadding>
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <EventNoteIcon />
-                    </ListItemIcon>
+                <ListItem
+                  sx={itemStyles.noteContainer}
+                  key={note.id}
+                  disablePadding
+                >
+                  <ListItemButton sx={itemStyles.noteButton}>
+                    <EventNoteIcon />
                     <ListItemText primary={note.title} />
                   </ListItemButton>
                 </ListItem>
