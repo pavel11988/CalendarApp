@@ -2,6 +2,7 @@ import { IStorage } from "./../../models/IStorage";
 import { createSlice, PayloadAction, current } from "@reduxjs/toolkit";
 import { INote } from "../../models/INote";
 import localStorage from "./localStorage.actions";
+import { default as dayjs } from "dayjs";
 
 interface ICalendarState {
   pickerMonth: number;
@@ -14,8 +15,8 @@ interface ICalendarState {
 }
 
 const initialState: ICalendarState = {
-  pickerMonth: 8,
-  pickerYear: 2022,
+  pickerMonth: dayjs().month(),
+  pickerYear: dayjs().year(),
   notes: [],
   storage: localStorage,
   currentNote: null,
