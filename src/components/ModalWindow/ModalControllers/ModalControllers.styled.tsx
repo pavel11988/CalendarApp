@@ -2,7 +2,7 @@ import { styled } from "@mui/system";
 import { Box, Button } from "@mui/material";
 
 export const ButtonsContainer = styled(Box)`
-  height: 100px;
+  height: 80px;
   display: flex;
   justify-content: end;
   align-self: bottom;
