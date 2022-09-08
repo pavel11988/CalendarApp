@@ -9,7 +9,7 @@ import {
 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
-const pickerStyles = {
+const styles = {
   datePickersContainer: {
     mt: "25px",
     display: "flex",
@@ -42,7 +42,7 @@ const ModalDataPickers = ({
   error,
 }: IProps) => (
   <LocalizationProvider dateAdapter={AdapterDayjs}>
-    <Box sx={pickerStyles.datePickersContainer}>
+    <Box sx={styles.datePickersContainer}>
       <DesktopDatePicker
         label="Date *"
         inputFormat="DD/MM/YYYY"

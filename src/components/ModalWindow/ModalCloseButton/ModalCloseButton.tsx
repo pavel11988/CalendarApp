@@ -4,7 +4,7 @@ import { Button } from "@mui/material";
 // icon
 import CloseIcon from "@mui/icons-material/Close";
 
-const modalStyles = {
+const styles = {
   closeButton: {
     position: "absolute",
     top: 15,
@@ -28,7 +28,7 @@ interface IProps {
 
 const ModalCloseButton = ({ handleClose }: IProps) => {
   return (
-    <Button sx={modalStyles.closeButton} onClick={() => handleClose()}>
+    <Button sx={styles.closeButton} onClick={() => handleClose()}>
       <CloseIcon />
     </Button>
   );
