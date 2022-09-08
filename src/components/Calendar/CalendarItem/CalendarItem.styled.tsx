@@ -12,13 +12,16 @@ import {
 
 export const CalendarCell = styled(TableCell)`
   width: 120px;
-  border: 1px solid #78909c;
+  outline: 1px solid #78909c;
   padding: 2px;
   position: relative;
   background-color: ${(props) => {
-    if (props.color === "todayCell") return "#8aff80b6";
-    if (props.color === "standartCell") return "#f5f5f5";
-    if (props.color === "anotherCell") return "#b8b8b8";
+    if (props.color === "todayCell") return "#8bff805c";
+    if (props.color === "standartCell") return "#fdfdfd";
+    if (props.color === "anotherCell") return "#ffffff57";
+  }};
+  opacity: ${(props) => {
+    if (props.color === "anotherCell") return 0.5;
   }};
 `;
 
@@ -48,7 +51,6 @@ export const NoteItem = styled(ListItem)`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  position: absolute;
   top: 3;
 `;
 

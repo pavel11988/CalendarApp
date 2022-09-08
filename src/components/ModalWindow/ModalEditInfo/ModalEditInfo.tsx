@@ -12,12 +12,22 @@ interface IProps {
 const ModalEditInfo = ({ currentNote }: IProps) => (
   <EditInfoContainer>
     <Typography component="p">
-      Created at: {currentNote.createdAt.split("T")[0]}{" "}
-      {currentNote.createdAt.split("T")[1].split(".")[0]}
+      <>
+        Created at:{" "}
+        {`${currentNote.createdAt.toString().split("T")[0]}, ${
+          currentNote.createdAt.toString().split("T")[1].split(".")[0]
+        }`}
+      </>
     </Typography>
     <Typography component="p">
-      Updated at: {currentNote.updatedAt.split("T")[0]}{" "}
-      {currentNote.updatedAt.split("T")[1].split(".")[0]}
+      {currentNote.updatedAt && (
+        <>
+          Updated at:{" "}
+          {`${currentNote.updatedAt.toString().split("T")[0]}, ${
+            currentNote.updatedAt.toString().split("T")[1].split(".")[0]
+          }`}
+        </>
+      )}
     </Typography>
   </EditInfoContainer>
 );

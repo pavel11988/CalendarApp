@@ -48,12 +48,3 @@ export function getMonthData(year, month) {
 
   return result;
 }
-
-// ok with undefined
-// for (let j = 0; j < DAYS_IN_WEEK; j++) {
-//   if ((i === 0 && j < monthStartsOn) || day > daysInCurrentMonth) {
-//     result[i][j] = undefined;
-//   } else {
-//     result[i][j] = new Date(year, month, day++);
-//   }
-// }

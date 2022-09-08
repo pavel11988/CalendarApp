@@ -4,7 +4,12 @@ import { Input, InputAdornment } from "@mui/material";
 // icons
 import RecentActorsIcon from "@mui/icons-material/RecentActors";
 
-const TitleInput = ({ title, setTitle }) => {
+interface IProps {
+  title: string;
+  setTitle: Function;
+}
+
+const TitleInput = ({ title, setTitle }: IProps) => {
   return (
     <Input
       sx={{ mb: "15px" }}

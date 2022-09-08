@@ -23,24 +23,31 @@ import { ModalContainer, ModalForm } from "./ModalWindow.styled";
 
 // libs
 import { v4 as uuidv4 } from "uuid";
+import { default as dayjs } from "dayjs";
+
+//interfaces
+import { INote } from "../../models/INote";
 
 const ModalWindow = () => {
-  const { currentNote } = useAppSelector((state) => state.calendarReducer);
-  const [id, setId] = useState("");
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [time, setTime] = useState(null);
-  const [date, setDate] = useState(null);
-  const [error, setError] = useState(false);
+  const currentNote: INote | null = useAppSelector(
+    (state) => state.calendarReducer.currentNote
+  );
+  const [id, setId] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [time, setTime] = useState<dayjs.Dayjs | null>(null);
+  const [date, setDate] = useState<dayjs.Dayjs | null>(null);
+  const [error, setError] = useState<boolean>(false);
+
   useEffect(() => {
     if (currentNote) {
-      const { id, title, description, date, time } = currentNote;
+      const { id, title, description, date } = currentNote;
       setId(id);
       setTitle(title);
       setDescription(description);
       setDate(date);
-      setTime(time);
       setError(false);
+      setTime(date);
     }
   }, [currentNote]);
 
@@ -60,7 +67,7 @@ const ModalWindow = () => {
     setError(false);
   };
 
-  const handleChangeTime = (newTime) => {
+  const handleChangeTime = (newTime: any) => {
     if (!newTime) {
       setTime(null);
       setError(false);
@@ -72,39 +79,37 @@ const ModalWindow = () => {
     }
   };
 
-  const handleChangeDate = (newDate) => {
+  const handleChangeDate = (newDate: any) => {
     setError(false);
     if (!newDate) {
-      setDate("");
+      setDate(null);
       setError(true);
     } else if (newDate.$d.toString() === "Invalid Date") {
       setError(true);
     } else {
-      setDate(newDate.$d.toString());
+      setDate(newDate);
     }
   };
 
   const handleSubmit = () => {
     if (currentNote !== null) {
-      const editedNote = {
+      const editedNote: INote = {
         id,
         title,
         description,
-        date,
-        time,
+        date: time ? time : date,
         createdAt: currentNote.createdAt,
-        updatedAt: new Date(),
+        updatedAt: dayjs(),
       };
       dispatch(editNote(editedNote));
     } else {
-      const newNote = {
+      const newNote: INote = {
         id: uuidv4(),
         title,
         description,
-        date,
-        time,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        date: time ? time : date,
+        createdAt: dayjs(),
+        updatedAt: null,
       };
       dispatch(addNewNote(newNote));
     }

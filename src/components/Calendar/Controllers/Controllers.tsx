@@ -2,7 +2,6 @@
 import { Button, InputLabel, TextField } from "@mui/material";
 
 // date
-import dayjs from "dayjs";
 import moment from "moment";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -30,12 +29,15 @@ const pickerStyles = {
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
         borderColor: "transparent",
+        boxShadow: 0,
       },
       "&:hover fieldset": {
         borderColor: "transparent",
+        boxShadow: 0,
       },
       "&.Mui-focused fieldset": {
         borderColor: "transparent",
+        boxShadow: 0,
       },
     },
   },
@@ -69,7 +71,7 @@ const Controllers = () => {
     dispatch(changePickerMonth(newMonthIndex));
   };
 
-  const handleDateChange = (newDate) => {
+  const handleDateChange = (newDate: any) => {
     if (newDate.$M === pickerMonth && newDate.$M === pickerYear) {
       return;
     }
@@ -96,8 +98,6 @@ const Controllers = () => {
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
           views={["year", "month"]}
-          minDate={dayjs(`${pickerYear - 15}-01-01`)}
-          maxDate={dayjs(`${pickerYear + 15}-12-31`)}
           value={`${monthNames[pickerMonth]} ${pickerYear}`}
           onChange={(newValue) => {
             handleDateChange(newValue);

@@ -35,33 +35,40 @@ export const calendarSlice = createSlice({
     },
 
     changePickerMonth(state, action: PayloadAction<number>) {
+      const actionType = "changePickerMonth";
       const data = state.storage.save(
         state.notes,
         action.payload,
-        state.pickerYear
+        state.pickerYear,
+        actionType
       );
       state.pickerMonth = data.pickerMonth;
     },
     changePickerYear(state, action: PayloadAction<number>) {
+      const actionType = "changePickerYear";
       const data = state.storage.save(
         state.notes,
         state.pickerMonth,
-        action.payload
+        action.payload,
+        actionType
       );
       state.pickerYear = data.pickerYear;
     },
     addNewNote(state, action: PayloadAction<INote>) {
+      const actionType = "addNewNote";
       const newNote = { ...action.payload };
       const newNotes = [...state.notes, newNote];
       const data = state.storage.save(
         newNotes,
         state.pickerMonth,
-        state.pickerYear
+        state.pickerYear,
+        actionType
       );
 
       state.notes = data.notes;
     },
     editNote(state, action: PayloadAction<INote>) {
+      const actionType = "editNote";
       const newNotes = current(state.notes).filter(
         (note) => note.id !== action.payload.id
       );
@@ -69,18 +76,21 @@ export const calendarSlice = createSlice({
       const data = state.storage.save(
         newNotes,
         state.pickerMonth,
-        state.pickerYear
+        state.pickerYear,
+        actionType
       );
       state.notes = data.notes;
     },
     deleteNote(state, action: PayloadAction<string>) {
+      const actionType = "deleteNote";
       const newNotes = current(state.notes).filter(
         (note) => note.id !== action.payload
       );
       const data = state.storage.save(
         newNotes,
         state.pickerMonth,
-        state.pickerYear
+        state.pickerYear,
+        actionType
       );
       state.notes = data.notes;
     },

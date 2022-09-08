@@ -4,7 +4,7 @@ import { Typography } from "@mui/material";
 import { INote } from "../../../models/INote";
 
 interface IProps {
-  currentNote: INote;
+  currentNote: INote | null;
 }
 
 const ModalTitle = ({ currentNote }: IProps) => {

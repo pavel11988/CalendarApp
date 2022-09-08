@@ -7,10 +7,13 @@ import {
   SaveButton,
 } from "./ModalControllers.styled";
 
+// date
+import { default as dayjs } from "dayjs";
+
 interface IProps {
-  currentNote: INote;
+  currentNote: INote | null;
   title: string;
-  date: string;
+  date: dayjs.Dayjs | null;
   handleDelete: Function;
   handleSubmit: Function;
   error: boolean;
@@ -24,7 +27,6 @@ const ModalControllers = ({
   handleSubmit,
   error,
 }: IProps) => {
-  // sx={controllersStyles.buttonsContainer}
   return (
     <ButtonsContainer>
       {currentNote && (

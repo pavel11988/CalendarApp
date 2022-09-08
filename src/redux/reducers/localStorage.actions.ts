@@ -20,7 +20,12 @@ const localStorage = {
 
     return response;
   },
-  save: (notes: INote[], pickerMonth: number, pickerYear: number) => {
+  save: (
+    notes: INote[],
+    pickerMonth: number,
+    pickerYear: number,
+    actionType?: string
+  ) => {
     window.localStorage.setItem(`notes`, JSON.stringify(notes));
     window.localStorage.setItem(`pickerMonth`, JSON.stringify(pickerMonth));
     window.localStorage.setItem(`pickerYear`, JSON.stringify(pickerYear));

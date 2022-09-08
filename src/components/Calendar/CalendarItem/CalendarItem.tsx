@@ -16,6 +16,11 @@ import {
   NoteButton,
   NoteTitle,
 } from "./CalendarItem.styled";
+
+// libs
+import { default as dayjs } from "dayjs";
+import utc from "dayjs/plugin/utc";
+
 import { INote } from "../../../models/INote";
 
 interface IDays {
@@ -75,9 +80,11 @@ const CalendarItem = ({ date, index, notes }: IProps) => {
       </DayInfoContainer>
 
       <NotesList>
-        {notes.map(
-          (note) =>
-            note.date?.toString() === date.toString() && (
+        {notes.map((note) => {
+          dayjs.extend(utc);
+          return (
+            note.date?.toString().split("T")[0] ===
+              dayjs.utc(date).format().toString().split("T")[0] && (
               <NoteItem key={note.id} disablePadding>
                 <NoteButton onClick={() => handleEditNote(note)}>
                   <EventNoteIcon />
@@ -85,7 +92,8 @@ const CalendarItem = ({ date, index, notes }: IProps) => {
                 </NoteButton>
               </NoteItem>
             )
-        )}
+          );
+        })}
       </NotesList>
     </CalendarCell>
   );

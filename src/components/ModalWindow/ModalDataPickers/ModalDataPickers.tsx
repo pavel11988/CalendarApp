@@ -8,6 +8,7 @@ import {
 } from "@mui/x-date-pickers";
 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import * as dayjs from "dayjs";
 
 const styles = {
   datePickersContainer: {
@@ -25,8 +26,8 @@ const styles = {
 };
 
 interface IProps {
-  date: string | null;
-  time: string;
+  date: dayjs.Dayjs | null;
+  time: dayjs.Dayjs | null;
   handleChangeDate: Function;
   handleChangeTime: Function;
   setError: Function;
@@ -39,7 +40,6 @@ const ModalDataPickers = ({
   handleChangeDate,
   handleChangeTime,
   setError,
-  error,
 }: IProps) => (
   <LocalizationProvider dateAdapter={AdapterDayjs}>
     <Box sx={styles.datePickersContainer}>

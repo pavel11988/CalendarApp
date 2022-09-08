@@ -21,14 +21,16 @@ const CalendarTable = () => {
       <TableBody>
         {monthData?.map((week, index) => (
           <Week key={index}>
-            {week.map((date, index) => (
-              <CalendarItem
-                date={date}
-                key={index}
-                index={index}
-                notes={notes}
-              />
-            ))}
+            {week.map((date, index) => {
+              return (
+                <CalendarItem
+                  date={date}
+                  key={index}
+                  index={index}
+                  notes={notes}
+                />
+              );
+            })}
           </Week>
         ))}
       </TableBody>

@@ -11,7 +11,8 @@ type loadFunc = () => IResponse;
 type saveFunc = (
   notes: INote[],
   pickerMonth: number,
-  pickerYear: number
+  pickerYear: number,
+  actionType?: string
 ) => IResponse;
 
 export interface IStorage {
