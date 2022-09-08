@@ -1,14 +1,5 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  Input,
-  InputAdornment,
-  InputLabel,
-  Modal,
-  TextField,
-  Typography,
-} from "@mui/material";
+// mui components
+import { InputLabel, Modal } from "@mui/material";
 
 // react
 import { useEffect, useState } from "react";
@@ -18,116 +9,29 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { globalSlice } from "../../redux/reducers/globalSlice";
 import { calendarSlice } from "../../redux/reducers/calendarSlice";
 
-// icons
-import RecentActorsIcon from "@mui/icons-material/RecentActors";
-import CloseIcon from "@mui/icons-material/Close";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+// componenets
+import ModalTitle from "./ModalTitle/ModalTitle";
+import ModalEditInfo from "./ModalEditInfo/ModalEditInfo";
+import ModalCloseButton from "./ModalCloseButton/ModalCloseButton";
+import TitleInput from "./TitleInput/TitleInput";
+import DescriptionInput from "./DescriptionInput/DescriptionInput";
+import ModalDataPickers from "./ModalDataPickers/ModalDataPickers";
+import ModalControllers from "./ModalControllers/ModalControllers";
 
-import {
-  DesktopDatePicker,
-  LocalizationProvider,
-  TimePicker,
-} from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+// styled components
+import { ModalContainer, ModalForm } from "./ModalWindow.styled";
 
-const modalStyles = {
-  modalContainer: {
-    position: "absolute",
-    left: "50%",
-    top: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "350px",
-    height: "500px",
-    backgroundColor: "white",
-    padding: 2,
-    borderRadius: "15px",
-  },
-  closeButton: {
-    position: "absolute",
-    top: 15,
-    right: 20,
-    maxWidth: "30px",
-    maxHeight: "30px",
-    minWidth: "30px",
-    minHeight: "30px",
-    color: "#9e9e9e",
-    borderRadius: "50%",
-    "&:hover": {
-      backgroundColor: "#616161",
-      color: "#eeeeee",
-    },
-  },
-  datesInfo: {
-    fontSize: 14,
-    color: "#9e9e9e",
-  },
-  form: {
-    mt: "15px",
-    width: "100%",
-  },
-  titleInput: {
-    mb: "15px",
-  },
-  datePickersContainer: {
-    mt: "25px",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    "& * > input:nth-of-type(n)": {
-      width: "90px",
-      display: "flex",
-      justifyContent: "center",
-    },
-  },
-
-  buttonsContainer: {
-    height: "100px",
-    display: "flex",
-    justifyContent: "end",
-    alignSelf: "bottom",
-  },
-
-  buttonSave: {
-    backgroundColor: "#03a9f4",
-    color: "#ffffff",
-    width: "80px",
-    height: "40px",
-    mt: "auto",
-
-    "&:disabled": {
-      backgroundColor: "#bdbdbd",
-      color: "#f5f5f5",
-    },
-
-    "&:hover": {
-      backgroundColor: "#81d4fa",
-      color: "#e1f5fe",
-    },
-  },
-
-  buttonDelete: {
-    backgroundColor: "#b30909",
-    color: "#ffffff",
-    width: "20px",
-    height: "40px",
-    mr: "10px",
-    mt: "auto",
-
-    "&:hover": {
-      backgroundColor: "#fa8181",
-      color: "#e1f5fe",
-    },
-  },
-};
+// libs
+import { v4 as uuidv4 } from "uuid";
 
 const ModalWindow = () => {
   const { currentNote } = useAppSelector((state) => state.calendarReducer);
-  const [id, setId] = useState(null);
+  const [id, setId] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [time, setTime] = useState(null);
   const [date, setDate] = useState(null);
-
+  const [error, setError] = useState(false);
   useEffect(() => {
     if (currentNote) {
       const { id, title, description, date, time } = currentNote;
@@ -136,6 +40,7 @@ const ModalWindow = () => {
       setDescription(description);
       setDate(date);
       setTime(time);
+      setError(false);
     }
   }, [currentNote]);
 
@@ -147,24 +52,39 @@ const ModalWindow = () => {
   const dispatch = useAppDispatch();
 
   const handleReset = () => {
-    setId(null);
+    setId("");
     setTitle("");
     setDescription("");
     setDate(null);
     setTime(null);
+    setError(false);
   };
 
   const handleChangeTime = (newTime) => {
-    setTime(newTime);
+    if (!newTime) {
+      setTime(null);
+      setError(false);
+    } else if (newTime.$d.toString() === "Invalid Date") {
+      setError(true);
+    } else {
+      setTime(newTime);
+      setError(false);
+    }
   };
 
   const handleChangeDate = (newDate) => {
-    setDate(newDate.$d.toString());
+    setError(false);
+    if (!newDate) {
+      setDate("");
+      setError(true);
+    } else if (newDate.$d.toString() === "Invalid Date") {
+      setError(true);
+    } else {
+      setDate(newDate.$d.toString());
+    }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
+  const handleSubmit = () => {
     if (currentNote !== null) {
       const editedNote = {
         id,
@@ -178,6 +98,7 @@ const ModalWindow = () => {
       dispatch(editNote(editedNote));
     } else {
       const newNote = {
+        id: uuidv4(),
         title,
         description,
         date,
@@ -207,86 +128,40 @@ const ModalWindow = () => {
 
   return (
     <Modal open={isModalOpen} onClose={() => handleClose()}>
-      <Box sx={modalStyles.modalContainer}>
-        <Typography variant="h6" component="h2">
-          {currentNote ? "Edit idea item" : "Add new idea item"}
-        </Typography>
+      <ModalContainer>
+        <ModalTitle currentNote={currentNote} />
 
-        {currentNote && (
-          <Box sx={modalStyles.datesInfo}>
-            <Typography variant="p" component="p">
-              Created at: {currentNote.createdAt.split("T")[0]}{" "}
-              {currentNote.createdAt.split("T")[1].split(".")[0]}
-            </Typography>
-            <Typography variant="p" component="p">
-              Updated at: {currentNote.updatedAt.split("T")[0]}{" "}
-              {currentNote.updatedAt.split("T")[1].split(".")[0]}
-            </Typography>
-          </Box>
-        )}
-        <Button sx={modalStyles.closeButton} onClick={() => handleClose()}>
-          <CloseIcon />
-        </Button>
-        <FormControl variant="standard" sx={modalStyles.form}>
+        {currentNote && <ModalEditInfo currentNote={currentNote} />}
+
+        <ModalCloseButton handleClose={handleClose} />
+
+        <ModalForm variant="standard">
           <InputLabel required>Title</InputLabel>
-          <Input
-            sx={modalStyles.titleInput}
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Title goes here"
-            endAdornment={
-              <InputAdornment position="start">
-                <RecentActorsIcon />
-              </InputAdornment>
-            }
-          />
-          <TextField
-            label="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            multiline
-            rows={7}
-            variant="standard"
+          <TitleInput title={title} setTitle={setTitle} />
+          <DescriptionInput
+            description={description}
+            setDescription={setDescription}
           />
 
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <Box sx={modalStyles.datePickersContainer}>
-              <DesktopDatePicker
-                label="Date desktop"
-                inputFormat="MM/DD/YYYY"
-                value={date}
-                required
-                onChange={(newDate) => handleChangeDate(newDate)}
-                renderInput={(params) => <TextField {...params} />}
-              />
+          <ModalDataPickers
+            date={date}
+            time={time}
+            handleChangeDate={handleChangeDate}
+            handleChangeTime={handleChangeTime}
+            setError={setError}
+            error={error}
+          />
 
-              <TimePicker
-                label="Time"
-                value={time}
-                onChange={(newTime) => handleChangeTime(newTime)}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </Box>
-          </LocalizationProvider>
-          <Box sx={modalStyles.buttonsContainer}>
-            {currentNote && (
-              <Button
-                sx={modalStyles.buttonDelete}
-                onClick={(e) => handleDelete(e)}
-              >
-                <DeleteForeverIcon />
-              </Button>
-            )}
-            <Button
-              sx={modalStyles.buttonSave}
-              disabled={title.trim() === "" || date === null}
-              onClick={(e) => handleSubmit(e)}
-            >
-              Save
-            </Button>
-          </Box>
-        </FormControl>
-      </Box>
+          <ModalControllers
+            currentNote={currentNote}
+            title={title}
+            date={date}
+            handleDelete={handleDelete}
+            handleSubmit={handleSubmit}
+            error={error}
+          />
+        </ModalForm>
+      </ModalContainer>
     </Modal>
   );
 };

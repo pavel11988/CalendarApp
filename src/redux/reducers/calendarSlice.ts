@@ -3,9 +3,6 @@ import { createSlice, PayloadAction, current } from "@reduxjs/toolkit";
 import { INote } from "../../models/INote";
 import localStorage from "./localStorage.actions";
 
-// libs
-import { v4 as uuidv4 } from "uuid";
-
 interface ICalendarState {
   pickerMonth: number;
   pickerYear: number;
@@ -54,7 +51,7 @@ export const calendarSlice = createSlice({
       state.pickerYear = data.pickerYear;
     },
     addNewNote(state, action: PayloadAction<INote>) {
-      const newNote = { ...action.payload, id: uuidv4() };
+      const newNote = { ...action.payload };
       const newNotes = [...state.notes, newNote];
       const data = state.storage.save(
         newNotes,

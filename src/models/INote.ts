@@ -1,9 +1,9 @@
 export interface INote {
   id: string;
   date: string;
-  time: string;
+  time: string | null;
   title: string;
   description: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }

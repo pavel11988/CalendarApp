@@ -77,7 +77,7 @@ const CalendarItem = ({ date, index, notes }: IProps) => {
       <NotesList>
         {notes.map(
           (note) =>
-            note.date.toString() === date.toString() && (
+            note.date?.toString() === date.toString() && (
               <NoteItem key={note.id} disablePadding>
                 <NoteButton onClick={() => handleEditNote(note)}>
                   <EventNoteIcon />

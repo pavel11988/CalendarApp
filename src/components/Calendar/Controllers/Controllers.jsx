@@ -70,7 +70,6 @@ const Controllers = () => {
   };
 
   const handleDateChange = (newDate) => {
-    console.log(newDate);
     if (newDate.$M === pickerMonth && newDate.$M === pickerYear) {
       return;
     }
