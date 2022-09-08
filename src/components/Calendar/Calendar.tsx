@@ -3,24 +3,19 @@ import Controllers from "./Controllers/Controllers";
 import CalendarTable from "./CalendarTable/CalendarTable";
 
 // mui components
-import { Box, Container } from "@mui/material";
+import { Container } from "@mui/material";
 import AddButton from "./AddButton/AddButton";
 
-const styles = {
-  headerBox: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-};
+// styled components
+import { CalendarHeader } from "./Calendar.styled";
 
 const Calendar = () => {
   return (
     <Container>
-      <Box sx={styles.headerBox}>
+      <CalendarHeader>
         <AddButton />
         <Controllers />
-      </Box>
+      </CalendarHeader>
       <CalendarTable />
     </Container>
   );

@@ -1,5 +1,5 @@
 // mui components
-import { Box, Button, InputLabel, TextField } from "@mui/material";
+import { Button, InputLabel, TextField } from "@mui/material";
 
 // date
 import dayjs from "dayjs";
@@ -13,20 +13,11 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { calendarSlice } from "../../../redux/reducers/calendarSlice";
 
+// styled components
+import { ControllesContainer, SelectContainer } from "./Controllers.styled";
+
 // stlyes
-const selectStyles = {
-  box: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "flex-end",
-  },
-  select: {
-    width: "300px",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
+const pickerStyles = {
   picker: {
     ".MuiInputBase-input": {
       display: "flex",
@@ -51,7 +42,7 @@ const selectStyles = {
 };
 
 const Controllers = () => {
-  const monthNames = moment().local()._locale._months;
+  const monthNames = moment.months();
   const { pickerMonth, pickerYear } = useAppSelector(
     (state) => state.calendarReducer
   );
@@ -59,8 +50,7 @@ const Controllers = () => {
   const { changePickerMonth, changePickerYear } = calendarSlice.actions;
   const dispatch = useAppDispatch();
 
-  const handlePrevMounth = (e) => {
-    e.preventDefault();
+  const handlePrevMounth = () => {
     let newMonthIndex = monthNames.indexOf(monthNames[pickerMonth]) - 1;
 
     if (newMonthIndex < 0) {
@@ -70,8 +60,7 @@ const Controllers = () => {
     dispatch(changePickerMonth(newMonthIndex));
   };
 
-  const handleNextMounth = (e) => {
-    e.preventDefault();
+  const handleNextMounth = () => {
     let newMonthIndex = monthNames.indexOf(monthNames[pickerMonth]) + 1;
     if (newMonthIndex > 11) {
       newMonthIndex = 0;
@@ -81,6 +70,7 @@ const Controllers = () => {
   };
 
   const handleDateChange = (newDate) => {
+    console.log(newDate);
     if (newDate.$M === pickerMonth && newDate.$M === pickerYear) {
       return;
     }
@@ -89,9 +79,9 @@ const Controllers = () => {
   };
 
   return (
-    <Box sx={selectStyles.box} paddingY={2}>
-      <Box sx={selectStyles.select}>
-        <Button onClick={(e) => handlePrevMounth(e)} name="prev">
+    <ControllesContainer paddingY={2}>
+      <SelectContainer>
+        <Button onClick={() => handlePrevMounth()} name="prev">
           {"<"}
         </Button>
 
@@ -99,10 +89,10 @@ const Controllers = () => {
           {monthNames[pickerMonth]} {pickerYear}
         </InputLabel>
 
-        <Button onClick={(e) => handleNextMounth(e)} name="next">
+        <Button onClick={() => handleNextMounth()} name="next">
           {">"}
         </Button>
-      </Box>
+      </SelectContainer>
 
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
@@ -114,11 +104,11 @@ const Controllers = () => {
             handleDateChange(newValue);
           }}
           renderInput={(params) => (
-            <TextField {...params} sx={selectStyles.picker} />
+            <TextField {...params} sx={pickerStyles.picker} />
           )}
         />
       </LocalizationProvider>
-    </Box>
+    </ControllesContainer>
   );
 };
 

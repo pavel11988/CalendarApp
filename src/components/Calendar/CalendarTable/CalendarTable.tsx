@@ -1,5 +1,5 @@
 // mui components
-import { Table, TableBody, TableRow } from "@mui/material";
+import { Table, TableBody } from "@mui/material";
 
 // helpers functions
 import { getMonthData } from "../../../helpers/calendar";
@@ -9,13 +9,7 @@ import { useAppSelector } from "../../../hooks/redux";
 
 // config
 import CalendarItem from "../CalendarItem/CalendarItem";
-
-const tableStyles = {
-  row: {
-    height: "130px",
-    backgroundColor: "#e8f5e9b6",
-  },
-};
+import { Week } from "./CalendarTable.styled";
 
 const CalendarTable = () => {
   const { notes, pickerMonth, pickerYear } = useAppSelector(
@@ -26,7 +20,7 @@ const CalendarTable = () => {
     <Table>
       <TableBody>
         {monthData?.map((week, index) => (
-          <TableRow sx={tableStyles.row} component="tr" key={index}>
+          <Week key={index}>
             {week.map((date, index) => (
               <CalendarItem
                 date={date}
@@ -35,7 +29,7 @@ const CalendarTable = () => {
                 notes={notes}
               />
             ))}
-          </TableRow>
+          </Week>
         ))}
       </TableBody>
     </Table>
