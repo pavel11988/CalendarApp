@@ -98,15 +98,6 @@ export const calendarSlice = createSlice({
     changeEditNote(state, action: PayloadAction<INote | null>) {
       state.currentNote = action.payload;
     },
-    // load status & error status (for restapi storage)
-    loading(state) {
-      state.loading = true;
-      state.error = false;
-    },
-    error(state) {
-      state.loading = true;
-      state.error = false;
-    },
   },
 });
 

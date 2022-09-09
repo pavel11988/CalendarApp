@@ -3,6 +3,7 @@ import * as dayjs from "dayjs";
 export interface INote {
   id: string;
   date: dayjs.Dayjs | null;
+  time: dayjs.Dayjs | null;
   title: string;
   description: string;
   createdAt: dayjs.Dayjs;

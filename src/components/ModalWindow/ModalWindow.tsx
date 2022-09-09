@@ -41,13 +41,13 @@ const ModalWindow = () => {
 
   useEffect(() => {
     if (currentNote) {
-      const { id, title, description, date } = currentNote;
+      const { id, title, description, date, time } = currentNote;
       setId(id);
       setTitle(title);
       setDescription(description);
       setDate(date);
+      setTime(time);
       setError(false);
-      setTime(date);
     }
   }, [currentNote]);
 
@@ -67,7 +67,21 @@ const ModalWindow = () => {
     setError(false);
   };
 
+  const handleChangeDate = (newDate: any) => {
+    setError(false);
+    if (!newDate) {
+      setDate(null);
+      setError(true);
+    } else if (newDate.$d.toString() === "Invalid Date") {
+      setError(true);
+    } else {
+      setDate(null);
+      setDate(newDate);
+    }
+  };
+
   const handleChangeTime = (newTime: any) => {
+    console.log(newTime);
     if (!newTime) {
       setTime(null);
       setError(false);
@@ -79,25 +93,14 @@ const ModalWindow = () => {
     }
   };
 
-  const handleChangeDate = (newDate: any) => {
-    setError(false);
-    if (!newDate) {
-      setDate(null);
-      setError(true);
-    } else if (newDate.$d.toString() === "Invalid Date") {
-      setError(true);
-    } else {
-      setDate(newDate);
-    }
-  };
-
   const handleSubmit = () => {
     if (currentNote !== null) {
       const editedNote: INote = {
         id,
         title,
         description,
-        date: time ? time : date,
+        date: date,
+        time: time,
         createdAt: currentNote.createdAt,
         updatedAt: dayjs(),
       };
@@ -107,7 +110,8 @@ const ModalWindow = () => {
         id: uuidv4(),
         title,
         description,
-        date: time ? time : date,
+        date: date,
+        time: time,
         createdAt: dayjs(),
         updatedAt: null,
       };
