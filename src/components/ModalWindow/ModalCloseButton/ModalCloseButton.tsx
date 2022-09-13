@@ -1,37 +1,37 @@
 // mui components
-import { Button } from "@mui/material";
+import { Button } from '@mui/material'
 
 // icon
-import CloseIcon from "@mui/icons-material/Close";
+import CloseIcon from '@mui/icons-material/Close'
 
 const styles = {
-  closeButton: {
-    position: "absolute",
-    top: 15,
-    right: 20,
-    maxWidth: "30px",
-    maxHeight: "30px",
-    minWidth: "30px",
-    minHeight: "30px",
-    color: "#9e9e9e",
-    borderRadius: "50%",
-    "&:hover": {
-      backgroundColor: "#616161",
-      color: "#eeeeee",
+    closeButton: {
+        position: 'absolute',
+        top: 15,
+        right: 20,
+        maxWidth: '30px',
+        maxHeight: '30px',
+        minWidth: '30px',
+        minHeight: '30px',
+        color: '#9e9e9e',
+        borderRadius: '50%',
+        '&:hover': {
+            backgroundColor: '#616161',
+            color: '#eeeeee',
+        },
     },
-  },
-};
+}
 
 interface IProps {
-  handleClose: Function;
+    handleClose: Function
 }
 
 const ModalCloseButton = ({ handleClose }: IProps) => {
-  return (
-    <Button sx={styles.closeButton} onClick={() => handleClose()}>
-      <CloseIcon />
-    </Button>
-  );
-};
+    return (
+        <Button sx={styles.closeButton} onClick={() => handleClose()}>
+            <CloseIcon />
+        </Button>
+    )
+}
 
-export default ModalCloseButton;
+export default ModalCloseButton

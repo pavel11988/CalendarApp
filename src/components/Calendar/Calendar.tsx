@@ -1,24 +1,24 @@
 // components
-import Controllers from "./Controllers/Controllers";
-import CalendarTable from "./CalendarTable/CalendarTable";
+import Controllers from './Controllers/Controllers'
+import CalendarTable from './CalendarTable/CalendarTable'
 
 // mui components
-import { Container } from "@mui/material";
-import AddButton from "./AddButton/AddButton";
+import { Container } from '@mui/material'
+import AddButton from './AddButton/AddButton'
 
 // styled components
-import { CalendarHeader } from "./Calendar.styled";
+import { CalendarHeader } from './Calendar.styled'
 
 const Calendar = () => {
-  return (
-    <Container>
-      <CalendarHeader>
-        <AddButton />
-        <Controllers />
-      </CalendarHeader>
-      <CalendarTable />
-    </Container>
-  );
-};
+    return (
+        <Container>
+            <CalendarHeader>
+                <AddButton />
+                <Controllers />
+            </CalendarHeader>
+            <CalendarTable />
+        </Container>
+    )
+}
 
-export default Calendar;
+export default Calendar

@@ -1,67 +1,67 @@
 //data
-import { TextField } from "@mui/material";
-import { Box } from "@mui/system";
+import { TextField } from '@mui/material'
+import { Box } from '@mui/system'
 import {
-  DesktopDatePicker,
-  LocalizationProvider,
-  TimePicker,
-} from "@mui/x-date-pickers";
+    DesktopDatePicker,
+    LocalizationProvider,
+    TimePicker,
+} from '@mui/x-date-pickers'
 
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import * as dayjs from "dayjs";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import * as dayjs from 'dayjs'
 
 const styles = {
-  datePickersContainer: {
-    mt: "25px",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
+    datePickersContainer: {
+        mt: '25px',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
 
-    "& * > input:nth-of-type(n)": {
-      width: "90px",
-      display: "flex",
-      justifyContent: "center",
+        '& * > input:nth-of-type(n)': {
+            width: '90px',
+            display: 'flex',
+            justifyContent: 'center',
+        },
     },
-  },
-};
+}
 
 interface IProps {
-  date: dayjs.Dayjs | null;
-  time: dayjs.Dayjs | null;
-  handleChangeDate: Function;
-  handleChangeTime: Function;
-  setError: Function;
-  error: boolean;
+    date: dayjs.Dayjs | null
+    time: dayjs.Dayjs | null
+    handleChangeDate: Function
+    handleChangeTime: Function
+    setError: Function
+    error: boolean
 }
 
 const ModalDataPickers = ({
-  date,
-  time,
-  handleChangeDate,
-  handleChangeTime,
-  setError,
+    date,
+    time,
+    handleChangeDate,
+    handleChangeTime,
+    setError,
 }: IProps) => (
-  <LocalizationProvider dateAdapter={AdapterDayjs}>
-    <Box sx={styles.datePickersContainer}>
-      <DesktopDatePicker
-        label="Date *"
-        inputFormat="DD/MM/YYYY"
-        value={date}
-        onError={() => setError(true)}
-        onChange={(newDate) => {
-          handleChangeDate(newDate);
-        }}
-        renderInput={(params) => <TextField error {...params} />}
-      />
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <Box sx={styles.datePickersContainer}>
+            <DesktopDatePicker
+                label="Date *"
+                inputFormat="DD/MM/YYYY"
+                value={date}
+                onError={() => setError(true)}
+                onChange={(newDate) => {
+                    handleChangeDate(newDate)
+                }}
+                renderInput={(params) => <TextField error {...params} />}
+            />
 
-      <TimePicker
-        label="Time"
-        value={time}
-        onChange={(newTime) => handleChangeTime(newTime)}
-        renderInput={(params) => <TextField error {...params} />}
-      />
-    </Box>
-  </LocalizationProvider>
-);
+            <TimePicker
+                label="Time"
+                value={time}
+                onChange={(newTime) => handleChangeTime(newTime)}
+                renderInput={(params) => <TextField error {...params} />}
+            />
+        </Box>
+    </LocalizationProvider>
+)
 
-export default ModalDataPickers;
+export default ModalDataPickers
